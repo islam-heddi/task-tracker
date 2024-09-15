@@ -93,6 +93,48 @@ switch(arg[0]){
             fs.writeFileSync("tasks.json",JSON.stringify(arr))
             console.log(`id: ${indexTask} deleted successfully`)
         break;
+        case 'mark-done':
+            if(arg[1] == undefined){
+                console.log("Nope enter the id, its very important step")
+                break;
+            }
+            const doneId = parseInt(arg[1])
+            if(isNaN(doneId)){
+                console.log("the id should be numeric");
+                break;
+            }
+            const indexDone = arr.findIndex(Element => Element.id == doneId)
+            if(indexDone <= -1){
+                console.log("there no task have this id, check the id and then try")
+                break;
+            }
+            if(arr[indexDone].inProgress == false){
+                console.log("to remove a task it should be in progress");
+                break;
+            }
+            arr[indexDone].complete = true;
+            fs.writeFileSync("tasks.json",JSON.stringify(arr))
+            console.log("Cool task is done")
+        break;
+        case 'mark-in-progress':
+            if(arg[1] == undefined){
+                console.log("Nope enter the id, its very important step")
+                break;
+            }
+            const progressId = parseInt(arg[1])
+            if(isNaN(progressId)){
+                console.log("the id should be numeric");
+                break;
+            }
+            const indexProgress = arr.findIndex(Element => Element.id == progressId)
+            if(indexProgress <= -1){
+                console.log("there no task have this id, check the id and then try")
+                break;
+            }
+            arr[indexProgress].inProgress = true;
+            fs.writeFileSync("tasks.json",JSON.stringify(arr))
+            console.log("marked the task as in progress")
+        break;
     default: 
         console.log("the first argument should be a crud operation or find all")
 }
