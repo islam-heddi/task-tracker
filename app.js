@@ -1,7 +1,4 @@
 const fs = require('fs')
-const path = require('path')
-
-const pathfile = path.join(__dirname,"tasks.json")
 
 const arg = process.argv.slice(2);
 let id = 0;
