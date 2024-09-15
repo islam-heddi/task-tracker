@@ -51,7 +51,28 @@ switch(arg[0]){
             }
         break;
     case "list":
-            console.log(arr)
+            if(arg[1] == undefined) {
+                console.log(arr)
+                break;
+            }else if(arg[1] == "done"){
+                arr.map(Element => {
+                    if(Element.complete){
+                        console.log(`${Element.id} : ${Element.description} since : ${Element.updateAt}`)
+                    }
+                })
+            }else if(arg[1] == "todo"){
+                arr.map(Element => {
+                    if((Element.complete == false) && (Element.inProgress == false)){
+                        console.log(`${Element.id} : ${Element.description} created since : ${Element.createdAt}`)
+                    }
+                })
+            }else if(arg[1] == "in-progress"){
+                arr.map(Element => {
+                    if((Element.inProgress) && !Element.complete ){
+                        console.log(`${Element.id} : ${Element.description} since : ${Element.updateAt}`)
+                    }
+                })
+            }
         break;
     case "update":
             const updateId = parseInt(arg[1]);
@@ -113,6 +134,7 @@ switch(arg[0]){
                 break;
             }
             arr[indexDone].complete = true;
+            arr[indexDone].updateAt = new Date();
             fs.writeFileSync("tasks.json",JSON.stringify(arr))
             console.log("Cool task is done")
         break;
@@ -132,6 +154,7 @@ switch(arg[0]){
                 break;
             }
             arr[indexProgress].inProgress = true;
+            arr[indexProgress].updateAt = new Date()
             fs.writeFileSync("tasks.json",JSON.stringify(arr))
             console.log("marked the task as in progress")
         break;
